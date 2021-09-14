@@ -1,0 +1,16 @@
+docker build -t selenium-docker-test .
+
+docker run --net grid -d --name test9001 selenium-docker-test
+
+docker exec test9001 /bin/sh -c "cd /home/app; mvn -Dmaven.test.failure.ignore=false clean test"
+
+docker cp test9001:/home/app/target /Users/rakeshkandpal/.jenkins/workspace/<jenkins-job-name>
+
+docker rm --force test9001
+
+
+
+
+
+
+https://github.com/SeleniumHQ/docker-selenium
