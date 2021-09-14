@@ -16,7 +16,7 @@ pipeline {
                     myapp = docker.build("rkandpal/selenium-docker-test:${env.BUILD_ID}")
                 }
             }
-        }
+      }
 
       stage("Push image") {
             steps {
@@ -27,7 +27,7 @@ pipeline {
                     }
                 }
             }
-        }
+      }
 
 
     stage("Execute Test") {
@@ -55,17 +55,17 @@ pipeline {
                docker rmi rkandpal/selenium-docker-test
                """
           }
-
-        }
-
+    }
   }
 
   post {
-          always {
+    always {
               echo 'Deleting docker containers and images.'
+              sh """
               docker rm -f  test9001 chrome-node selenium-hub
               docker network rm grid
               docker rmi rkandpal/selenium-docker-test
+              """
           }
   }
 
