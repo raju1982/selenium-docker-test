@@ -44,9 +44,11 @@ pipeline {
             sleep time: 5, unit: 'SECONDS'
 
             sh """
-               docker run --net grid -d --name test9001 selenium-docker-test
+               docker run --net grid -d --name test9001 rkandpal/selenium-docker-test
 
                docker exec test9001 /bin/sh -c "cd /home/app; mvn -Dmaven.test.failure.ignore=false clean test"
+
+               docker network rm grid
                """
           }
 
