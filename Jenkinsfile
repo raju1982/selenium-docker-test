@@ -40,14 +40,9 @@ pipeline {
               docker run -d --net grid -e SE_EVENT_BUS_HOST=selenium-hub --shm-size="2g" -e SE_EVENT_BUS_PUBLISH_PORT=4442 -e SE_EVENT_BUS_SUBSCRIBE_PORT=4443 \
                   selenium/node-chrome:4.0.0-rc-2-prerelease-20210908
             """
-          }
 
-          steps {
             sleep time: 5, unit: 'SECONDS'
-          }
 
-
-          steps {
             sh """
                docker run --net grid -d --name test9001 selenium-docker-test
 
