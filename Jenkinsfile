@@ -60,4 +60,13 @@ pipeline {
 
   }
 
+  post {
+          always {
+              echo 'Deleting docker containers and images.'
+              docker rm -f  test9001 chrome-node selenium-hub
+              docker network rm grid
+              docker rmi rkandpal/selenium-docker-test
+          }
+  }
+
 }
