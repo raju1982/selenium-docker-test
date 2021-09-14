@@ -1,5 +1,19 @@
 docker build -t selenium-docker-test .
 
+###############################
+
+docker network create grid
+
+docker run -d -p 4442-4444:4442-4444 --net grid --name selenium-hub selenium/hub:4.0.0-rc-2-prerelease-20210908
+
+docker run -d --net grid -e SE_EVENT_BUS_HOST=selenium-hub --shm-size="2g" -e SE_EVENT_BUS_PUBLISH_PORT=4442 -e SE_EVENT_BUS_SUBSCRIBE_PORT=4443 \
+    selenium/node-chrome:4.0.0-rc-2-prerelease-20210908
+
+while [ "$( curl -s http://$HUB_HOST:4444/wd/hub/status | jq -r .value.ready )" != "true" ]
+do
+    sleep 1
+done
+
 docker run --net grid -d --name test9001 selenium-docker-test
 
 docker exec test9001 /bin/sh -c "cd /home/app; mvn -Dmaven.test.failure.ignore=false clean test"
@@ -8,9 +22,7 @@ docker cp test9001:/home/app/target /Users/rakeshkandpal/.jenkins/workspace/<jen
 
 docker rm --force test9001
 
-
-
-
+################################
 
 
 https://github.com/SeleniumHQ/docker-selenium
