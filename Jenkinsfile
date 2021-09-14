@@ -37,7 +37,7 @@ pipeline {
 
               docker run -d -p 4442-4444:4442-4444 --net grid --name selenium-hub selenium/hub:4.0.0-rc-2-prerelease-20210908
 
-              docker run -d --net grid -e SE_EVENT_BUS_HOST=selenium-hub --shm-size="2g" -e SE_EVENT_BUS_PUBLISH_PORT=4442 -e SE_EVENT_BUS_SUBSCRIBE_PORT=4443 \
+              docker run -d --net grid --name chrome-node -e SE_EVENT_BUS_HOST=selenium-hub --shm-size="2g" -e SE_EVENT_BUS_PUBLISH_PORT=4442 -e SE_EVENT_BUS_SUBSCRIBE_PORT=4443 \
                   selenium/node-chrome:4.0.0-rc-2-prerelease-20210908
             """
 
@@ -47,6 +47,8 @@ pipeline {
                docker run --net grid -d --name test9001 rkandpal/selenium-docker-test
 
                docker exec test9001 /bin/sh -c "cd /home/app; mvn -Dmaven.test.failure.ignore=false clean test"
+
+               docker rm -f  test9001 chrome-node selenium-hub
 
                docker network rm grid
                """
