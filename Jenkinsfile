@@ -51,6 +51,8 @@ pipeline {
                docker rm -f  test9001 chrome-node selenium-hub
 
                docker network rm grid
+
+               docker rmi rkandpal/selenium-docker-test
                """
           }
 
