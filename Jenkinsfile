@@ -46,13 +46,12 @@ pipeline {
             sh """
                docker run --net grid -d --name test9001 rkandpal/selenium-docker-test
 
+               pwd
+
+               ls -la
+
                docker exec test9001 /bin/sh -c "cd /home/app; mvn -Dmaven.test.failure.ignore=false clean test"
 
-               docker rm -f  test9001 chrome-node selenium-hub
-
-               docker network rm grid
-
-               docker rmi rkandpal/selenium-docker-test
                """
           }
     }
